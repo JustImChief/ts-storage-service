@@ -29,6 +29,8 @@ class StorageService {
         }
 
         this.removeData(this.getKey(key));
+      } else {
+        return data.value;
       }
     } catch (error) {
     }

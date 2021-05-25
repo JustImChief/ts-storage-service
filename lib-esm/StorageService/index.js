@@ -22,6 +22,9 @@ var StorageService = /** @class */ (function () {
                 }
                 this.removeData(this.getKey(key));
             }
+            else {
+                return data.value;
+            }
         }
         catch (error) {
         }
