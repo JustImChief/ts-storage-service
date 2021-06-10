@@ -6,7 +6,7 @@ declare class StorageService {
     hasData(key: string): boolean;
     getData(key: string): any;
     removeData(key: string): this;
-    setData(key: string, data: any, expires?: number): this;
-    updateExpires(key: string, expires: number): this;
+    setData(key: string, data: any, expires?: Date | number): this;
+    updateExpires(key: string, expires: Date | number): this;
 }
 export default StorageService;

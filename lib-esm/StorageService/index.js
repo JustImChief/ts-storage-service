@@ -44,7 +44,9 @@ var StorageService = /** @class */ (function () {
         try {
             this.storage.setItem(this.getKey(key), JSON.stringify({
                 value: data,
-                expires: isNumber(expires) ? Date.now() + expires : null,
+                expires: expires instanceof Date
+                    ? expires.getTime()
+                    : isNumber(expires) ? Date.now() + expires : null,
             }));
         }
         catch (error) {
@@ -52,7 +54,7 @@ var StorageService = /** @class */ (function () {
         return this;
     };
     StorageService.prototype.updateExpires = function (key, expires) {
-        if (isNumber(expires) && this.hasData(key)) {
+        if ((isNumber(expires) || expires instanceof Date) && this.hasData(key)) {
             try {
                 var data = JSON.parse(this.storage.getItem(this.getKey(key)));
                 if (!isUndefined(data === null || data === void 0 ? void 0 : data.value)) {
