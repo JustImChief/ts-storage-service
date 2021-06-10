@@ -49,20 +49,27 @@ class StorageService {
     return this;
   }
 
-  setData(key: string, data: any, expires?: number): this {
+  setData(key: string, data: any, expires?: Date | number): this {
     try {
-      this.storage.setItem(this.getKey(key), JSON.stringify({
-                                                              value:   data,
-                                                              expires: isNumber(expires) ? Date.now() + expires : null,
-                                                            }));
+      this.storage.setItem(
+        this.getKey(key),
+        JSON.stringify(
+          {
+            value:   data,
+            expires: expires instanceof Date
+                       ? expires.getTime()
+                       : isNumber(expires) ? Date.now() + expires : null,
+          },
+        ),
+      );
     } catch (error) {
     }
 
     return this;
   }
 
-  updateExpires(key: string, expires: number): this {
-    if (isNumber(expires) && this.hasData(key)) {
+  updateExpires(key: string, expires: Date | number): this {
+    if ((isNumber(expires) || expires instanceof Date) && this.hasData(key)) {
       try {
         const data = JSON.parse(this.storage.getItem(this.getKey(key)));
 
